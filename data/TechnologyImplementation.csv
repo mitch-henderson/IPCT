@@ -1,0 +1,49 @@
+﻿speaker,ruling,count
+Video Chat,no-plans-to-use,22
+Video Chat,planning-to-use,12
+Video Chat,currently-using,66
+Cloud,no-plans-to-use,26
+Cloud,planning-to-use,14
+Cloud,currently-using,60
+Video Surveillance,no-plans-to-use,40
+Video Surveillance,planning-to-use,12
+Video Surveillance,currently-using,48
+Social Media Monitoring,no-plans-to-use,46
+Social Media Monitoring,planning-to-use,16
+Social Media Monitoring,currently-using,38
+Wireless Sensors,no-plans-to-use,57
+Wireless Sensors,planning-to-use,17
+Wireless Sensors,currently-using,26
+Automation,no-plans-to-use,54
+Automation,planning-to-use,20
+Automation,currently-using,26
+APIs,no-plans-to-use,61
+APIs,planning-to-use,15
+APIs,currently-using,24
+Wearables,no-plans-to-use,59
+Wearables,planning-to-use,18
+Wearables,currently-using,23
+Infrared,no-plans-to-use,61
+Infrared,planning-to-use,18
+Infrared,currently-using,21
+Smart machines,no-plans-to-use,62
+Smart machines,planning-to-use,18
+Smart machines,currently-using,20
+3D Printing,no-plans-to-use,66
+3D Printing,planning-to-use,16
+3D Printing,currently-using,18
+AI,no-plans-to-use,65
+AI,planning-to-use,19
+AI,currently-using,16
+Drones,no-plans-to-use,72
+Drones,planning-to-use,14
+Drones,currently-using,15
+Augmented Reality,no-plans-to-use,71
+Augmented Reality,planning-to-use,16
+Augmented Reality,currently-using,14
+Blockchain,no-plans-to-use,76
+Blockchain,planning-to-use,13
+Blockchain,currently-using,11
+Robots,no-plans-to-use,74
+Robots,planning-to-use,14
+Robots,currently-using,11
