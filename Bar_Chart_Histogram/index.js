@@ -23,9 +23,9 @@ svg.append("text")
     .attr("font-size", 10)
 
 Promise.all([
-    d3.csv("Wave_3.csv"),
-    d3.csv("Wave_4.csv"),
-    d3.csv("Wave_5.csv")
+    d3.csv("/data/Wave_3.csv"),
+    d3.csv("/data/Wave_4.csv"),
+    d3.csv("/data/Wave_5.csv")
 ]).then((datas) => {
     const percentageArrays = []
     datas.forEach((data) => {
