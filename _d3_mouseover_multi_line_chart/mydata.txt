@@ -1,6 +1,0 @@
-date	Current economy	Achieving business goals over next three months	Achieving business goals over next six months	Business stability for next 12 months	Becoming personally infected by COVID-19	Friends/family becoming infected by COVID-19	Supply chain interruptions	Skilled labor shortages	Employees not showing up for work	IT cybersecurity with remote employees
-20200326	8.03	7.94	7.59	7.63	6.39	7.52	7.26	6.1	5.7	4.96
-20200406	8.37	7.8	7.59	7.86	6.91	8.01	7.44	6.21	5.98	5.34
-20200420	8.35	7.79	7.79	7.79	6.62	7.56	7.19	6.04	5.56	5.14
-20200504	8.26	7.49	7.49	7.49	6.62	7.08	7.17	6.07	5.33	4.88
-20200608	7.35	6.79	6.75	6.86	5.95	6.72	6.76	5.99	5.3	5.01
