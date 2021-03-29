@@ -39,11 +39,9 @@ Promise.all([
   const plotData = [
     [], [], [], [], [], [], [], [], [], [], [], []
   ]
-  const textDomain = []
+  let textDomain = []
   datas.forEach((d, index) => {
-    if (!textDomain[index] || (textDomain[index] < new Date(d))){
-      textDomain[index] = new Date(d)
-    }
+
     
     const countArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     const sumArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -61,6 +59,10 @@ Promise.all([
       countData(countArray, sumArray, 9, innerd["Q100r10"])
       countData(countArray, sumArray, 10, innerd["Q100r11"])
       countData(countArray, sumArray, 11, innerd["Q100r12"])
+
+      if (!textDomain[index] || (textDomain[index] < new Date(innerd.date))){
+        textDomain[index] = new Date(innerd.date)
+      }
 
     })
 
@@ -80,15 +82,20 @@ Promise.all([
 
     console.log(averageArray)
   })
+textDomain = textDomain.map((d)=>{
+  return d.toLocaleDateString()
+})
+
   console.log(plotData)
   console.log(textDomain)
   
+const colorScale = d3.scaleOrdinal(d3.schemePaired)
 
   const xScale = d3.scaleBand()
-  .domain([])
+  .domain(textDomain)
   .range([0, svgWidth - margins.right - margins.left])
 const yScale = d3.scaleLinear()
-  .domain([0, 100])
+  .domain([0, 10])
   .range([svgHeight - margins.top - margins.bottom, 0])
 svg.append("g")
   .call(d3.axisBottom().scale(xScale))
@@ -98,6 +105,53 @@ svg.append("g")
   .call(d3.axisLeft().scale(yScale))
   .attr("transform", `translate(${margins.left},${margins.top})`)
 
+const dataPointGroup = svg.append("g")
+.attr("transform", `translate(${margins.left},${margins.top})`)
+
+
+plotData.forEach((data, index)=>{
+  dataPointGroup.selectAll(`.data-point-${index}`)
+  .data(data)
+  .enter()
+  .append("circle")
+  .attr("r",(d)=>{return d ? 5 : 0})
+  .attr("cx", (d,i)=>{return xScale(textDomain[i])})
+  .attr("cy", (d)=>{return yScale(d)})
+  .attr("fill", colorScale(index))
+  dataPointGroup.selectAll(`.line-${index}`)
+  .data(data)
+  .enter()
+  .append("line")
+  .attr("stroke", colorScale(index))
+  .attr("x1", (d,i)=>{
+    if (i === 0 || !data[i-1] || !data[i]){
+      return 0
+    } else {
+      return xScale(textDomain[i-1])
+    }
+  })
+  .attr("y1", (d,i)=>{
+    if (i === 0 || !data[i-1] || !data[i]){
+      return 0
+    } else {
+      return yScale(data[i-1])
+    }
+  })
+  .attr("x2", (d,i)=>{
+    if (i === 0 || !data[i-1] || !data[i]){
+      return 0
+    } else {
+      return xScale(textDomain[i])
+    }
+  })
+  .attr("y2", (d,i)=>{
+    if (i === 0 || !data[i-1] || !data[i]){
+      return 0
+    } else {
+      return yScale(data[i])
+    }
+  })
+})
 
   console.log(data);
   color.domain(d3.keys(data[0]).filter(function (key) {
