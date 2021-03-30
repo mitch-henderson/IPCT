@@ -1,7 +1,7 @@
 
-const svgHeight = 500
+const svgHeight = 640
 const svgWidth = 800
-const margins = { top: 30, bottom: 50, left: 50, right: 30 }
+const margins = { top: 30, bottom: 190, left: 50, right: 30 }
 const plotHeight = svgHeight - margins.top - margins.bottom
 const plotWidth = svgWidth - margins.left - margins.right
 
@@ -42,7 +42,7 @@ Promise.all([
   let textDomain = []
   datas.forEach((d, index) => {
 
-    
+
     const countArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     const sumArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     const averageArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -60,7 +60,7 @@ Promise.all([
       countData(countArray, sumArray, 10, innerd["Q100r11"])
       countData(countArray, sumArray, 11, innerd["Q100r12"])
 
-      if (!textDomain[index] || (textDomain[index] < new Date(innerd.date))){
+      if (!textDomain[index] || (textDomain[index] < new Date(innerd.date))) {
         textDomain[index] = new Date(innerd.date)
       }
 
@@ -82,262 +82,121 @@ Promise.all([
 
     console.log(averageArray)
   })
-textDomain = textDomain.map((d)=>{
-  return d.toLocaleDateString()
-})
+  textDomain = textDomain.map((d) => {
+    return d.toLocaleDateString()
+  })
+
+  const legendArray = [
+    "Current economy",
+    "Achieving business goals over next three months",
+    "Achieving business goals over next six months",
+    "Business stability for next 12 months",
+    "Becoming personally infected by COVID-19",
+    "Friends/family becoming infected by COVID-19",
+    "Supply chain interruptions",
+    "Skilled labor shortages",
+    "Employees not showing up for work",
+    "IT cybersecurity with remote employees",
+    "Another wave of COVID-19 impacting business"
+  ]
 
   console.log(plotData)
   console.log(textDomain)
-  
-const colorScale = d3.scaleOrdinal(d3.schemePaired)
+
+  const colorScale = d3.scaleOrdinal(d3.schemePaired)
 
   const xScale = d3.scaleBand()
-  .domain(textDomain)
-  .range([0, svgWidth - margins.right - margins.left])
-const yScale = d3.scaleLinear()
-  .domain([0, 10])
-  .range([svgHeight - margins.top - margins.bottom, 0])
-svg.append("g")
-  .call(d3.axisBottom().scale(xScale))
-  .attr("transform", `translate(${margins.left},${margins.top + plotHeight})`)
+    .domain(textDomain)
+    .range([0, svgWidth - margins.right - margins.left])
+  const yScale = d3.scaleLinear()
+    .domain([0, 10])
+    .range([svgHeight - margins.top - margins.bottom, 0])
+  svg.append("g")
+    .call(d3.axisBottom().scale(xScale))
+    .attr("transform", `translate(${margins.left},${margins.top + plotHeight})`)
 
-svg.append("g")
-  .call(d3.axisLeft().scale(yScale))
-  .attr("transform", `translate(${margins.left},${margins.top})`)
-
-const dataPointGroup = svg.append("g")
-.attr("transform", `translate(${margins.left},${margins.top})`)
-
-
-plotData.forEach((data, index)=>{
-  dataPointGroup.selectAll(`.data-point-${index}`)
-  .data(data)
-  .enter()
-  .append("circle")
-  .attr("r",(d)=>{return d ? 5 : 0})
-  .attr("cx", (d,i)=>{return xScale(textDomain[i])})
-  .attr("cy", (d)=>{return yScale(d)})
-  .attr("fill", colorScale(index))
-  dataPointGroup.selectAll(`.line-${index}`)
-  .data(data)
-  .enter()
-  .append("line")
-  .attr("stroke", colorScale(index))
-  .attr("x1", (d,i)=>{
-    if (i === 0 || !data[i-1] || !data[i]){
-      return 0
-    } else {
-      return xScale(textDomain[i-1])
-    }
-  })
-  .attr("y1", (d,i)=>{
-    if (i === 0 || !data[i-1] || !data[i]){
-      return 0
-    } else {
-      return yScale(data[i-1])
-    }
-  })
-  .attr("x2", (d,i)=>{
-    if (i === 0 || !data[i-1] || !data[i]){
-      return 0
-    } else {
-      return xScale(textDomain[i])
-    }
-  })
-  .attr("y2", (d,i)=>{
-    if (i === 0 || !data[i-1] || !data[i]){
-      return 0
-    } else {
-      return yScale(data[i])
-    }
-  })
-})
-
-  console.log(data);
-  color.domain(d3.keys(data[0]).filter(function (key) {
-    return key !== "date";
-  }));
-
-  data.forEach(function (d) {
-    d.date = parseDate(d.date);
-  });
-
-  var cities = color.domain().map(function (name) {
-    return {
-      name: name,
-      values: data.map(function (d) {
-        return {
-          date: d.date,
-          temperature: +d[name]
-        };
-      })
-    };
-  });
-
-  x.domain(d3.extent(data, function (d) {
-    return d.date;
-  }));
-
-  y.domain([
-    d3.min(cities, function (c) {
-      return d3.min(c.values, function (v) {
-        return v.temperature;
-      });
-    }),
-    d3.max(cities, function (c) {
-      return d3.max(c.values, function (v) {
-        return v.temperature;
-      });
-    })
-  ]);
-
-  var title = svg.append("text")
-    //.text("Areas of Concern - Mean Rating (1-10 Scale)")
-    .attr('x', margin.left) //want it to be centered
-    .attr('y', -(margin.top) / 2) //moved it to top
-    .style("font", "40px sans-serif")
-
-
-  var legend = svg.selectAll('g') //creating the legend
-    .data(cities)
+  svg.append("g")
+    .call(d3.axisLeft().scale(yScale))
+    .attr("transform", `translate(${margins.left},${margins.top})`)
+  
+  const legendGroup = svg.append("g")
+    .attr("transform", `translate(${margins.left},${margins.top + plotHeight + 50})`)
+    legendGroup.selectAll(".legend")
+    .data(legendArray)
     .enter()
-    .append('g')
-    .attr('class', 'legend');
-
-  legend.append('rect') //adding a rectangle
-    .attr('x', margin.left) //changing from -20 to margin.left
-    .attr('y', function (d, i) {
-      return i * 20 + 500; //went to adding 500
-    })
-    .attr('width', 10)
-    .attr('height', 10)
-    .style('fill', function (d) { //filling in colors here
-      return color(d.name);
-    });
-
-  legend.append('text') //text 
-    .attr('x', margin.left + 12) //moving text to left hand side as well +12
-    .attr('y', function (d, i) {
-      return (i * 20) + 509;  //went from 9 to 500
-    })
-    .text(function (d) {
-      return d.name;
-    });
-
-  svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
-
-  svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
     .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "end")
-    .text("Mean Rating (0-10 scale)");
-
-  var city = svg.selectAll(".city")
-    .data(cities)
-    .enter().append("g")
-    .attr("class", "city");
-
-  city.append("path")
-    .attr("class", "line")
-    .attr("d", function (d) {
-      return line(d.values);
+    .attr("x",(d,i)=>{
+      if ((i / 6) < 1) {return 10}
+      else {return plotWidth / 2 + 10}
     })
-    .style("stroke", function (d) {
-      return color(d.name);
-    });
-
-  var mouseG = svg.append("g")
-    .attr("class", "mouse-over-effects");
-
-  mouseG.append("path") // this is the black vertical line to follow mouse
-    .attr("class", "mouse-line")
-    .style("stroke", "black")
-    .style("stroke-width", "1px")
-    .style("opacity", "0");
-
-  var lines = document.getElementsByClassName('line');
-
-  var mousePerLine = mouseG.selectAll('.mouse-per-line')
-    .data(cities)
+    .attr("y",(d,i)=>{
+      return (i % 6) * 20
+    })
+    .text((d, i)=>{
+      return `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}` 
+    })
+    .attr("font-size",10)
+    legendGroup.selectAll(".legend-circle")
+    .data(legendArray)
     .enter()
-    .append("g")
-    .attr("class", "mouse-per-line");
-
-  mousePerLine.append("circle")
-    .attr("r", 7)
-    .style("stroke", function (d) {
-      return color(d.name);
+    .append("circle")
+    .attr("r",5)
+    .attr("cx",(d,i)=>{
+      if ((i / 6) < 1) {return 0}
+      else {return plotWidth / 2}
     })
-    .style("fill", "none")
-    .style("stroke-width", "1px")
-    .style("opacity", "0");
-
-  mousePerLine.append("text")
-    .attr("transform", "translate(10,3)");
-
-  mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
-    .attr('width', width) // can't catch mouse events on a g element
-    .attr('height', height)
-    .attr('fill', 'none')
-    .attr('pointer-events', 'all')
-    .on('mouseout', function () { // on mouse out hide line, circles and text
-      d3.select(".mouse-line")
-        .style("opacity", "0");
-      d3.selectAll(".mouse-per-line circle")
-        .style("opacity", "0");
-      d3.selectAll(".mouse-per-line text")
-        .style("opacity", "0");
+    .attr("cy",(d,i)=>{
+      return (i % 6) * 20 - 3
     })
-    .on('mouseover', function () { // on mouse in show line, circles and text
-      d3.select(".mouse-line")
-        .style("opacity", "1");
-      d3.selectAll(".mouse-per-line circle")
-        .style("opacity", "1");
-      d3.selectAll(".mouse-per-line text")
-        .style("opacity", "1");
+    .attr("fill", (d,i)=>{
+      return colorScale(i)
     })
-    .on('mousemove', function () { // mouse moving over canvas
-      var mouse = d3.mouse(this);
-      d3.select(".mouse-line")
-        .attr("d", function () {
-          var d = "M" + mouse[0] + "," + height;
-          d += " " + mouse[0] + "," + 0;
-          return d;
-        });
 
-      d3.selectAll(".mouse-per-line")
-        .attr("transform", function (d, i) {
-          console.log(width / mouse[0])
-          var xDate = x.invert(mouse[0]),
-            bisect = d3.bisector(function (d) { return d.date; }).right;
-          idx = bisect(d.values, xDate);
+  const dataPointGroup = svg.append("g")
+    .attr("transform", `translate(${margins.left + plotWidth / (textDomain.length * 2)},${margins.top})`)
 
-          var beginning = 0,
-            end = lines[i].getTotalLength(),
-            target = null;
 
-          while (true) {
-            target = Math.floor((beginning + end) / 2);
-            pos = lines[i].getPointAtLength(target);
-            if ((target === end || target === beginning) && pos.x !== mouse[0]) {
-              break;
-            }
-            if (pos.x > mouse[0]) end = target;
-            else if (pos.x < mouse[0]) beginning = target;
-            else break; //position found
-          }
-
-          d3.select(this).select('text')
-            .text(y.invert(pos.y).toFixed(2));
-
-          return "translate(" + mouse[0] + "," + pos.y + ")";
-        });
-    });
+  plotData.forEach((data, index) => {
+    dataPointGroup.selectAll(`.data-point-${index}`)
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("r", (d) => { return d ? 5 : 0 })
+      .attr("cx", (d, i) => { return xScale(textDomain[i]) })
+      .attr("cy", (d) => { return yScale(d) })
+      .attr("fill", colorScale(index))
+    dataPointGroup.selectAll(`.line-${index}`)
+      .data(data)
+      .enter()
+      .append("line")
+      .attr("stroke", colorScale(index))
+      .attr("x1", (d, i) => {
+        if (i === 0 || !data[i - 1] || !data[i]) {
+          return 0
+        } else {
+          return xScale(textDomain[i - 1])
+        }
+      })
+      .attr("y1", (d, i) => {
+        if (i === 0 || !data[i - 1] || !data[i]) {
+          return 0
+        } else {
+          return yScale(data[i - 1])
+        }
+      })
+      .attr("x2", (d, i) => {
+        if (i === 0 || !data[i - 1] || !data[i]) {
+          return 0
+        } else {
+          return xScale(textDomain[i])
+        }
+      })
+      .attr("y2", (d, i) => {
+        if (i === 0 || !data[i - 1] || !data[i]) {
+          return 0
+        } else {
+          return yScale(data[i])
+        }
+      })
+  })
 });
