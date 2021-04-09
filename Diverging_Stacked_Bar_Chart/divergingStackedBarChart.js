@@ -1,6 +1,6 @@
 const svgHeight = 500
-const svgWidth = 800
-const margins = { top: 30, bottom: 50, left: 50, right: 30 }
+const svgWidth = 800 //fits on mobile because of "double" pixels
+const margins = { top: 30, bottom: 50, left: 300, right: 30 }
 const plotHeight = svgHeight - margins.top - margins.bottom
 const plotWidth = svgWidth - margins.left - margins.right
 
