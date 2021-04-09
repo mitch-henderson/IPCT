@@ -1,6 +1,6 @@
 const svgHeight = 500
-const svgWidth = 800 //fits on mobile because of "double" pixels
-const margins = { top: 30, bottom: 50, left: 300, right: 30 }
+const svgWidth = 800 //fits on mobile because of "double" pixels - the whole visual
+const margins = { top: 30, bottom: 50, left: 250, right: 30 } //margin along the plot
 const plotHeight = svgHeight - margins.top - margins.bottom
 const plotWidth = svgWidth - margins.left - margins.right
 
@@ -68,9 +68,9 @@ d3.csv("../data/Wave_5.csv").then((data) => {
         "Blockchain technology",
         "Cloud services/computing",
         "Drones",
-        "Integration of smart, connected machines and manufacturing assets with the wider enterprise",
+        "Integration of smart, connected machines",
         "Infrared Fever Warning Systems",
-        "On-the-job required mobile devices/Wearables – The connected worker",
+        "Mobile devices/Wearables – The connected worker",
         "Robots",
         "Social Media Monitoring",
         "Video Chat/Conferencing Software",
