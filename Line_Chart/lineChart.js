@@ -31,34 +31,49 @@ function countData(countArray, sumArray, index, data) {
   }
 }
 
+const questionsToPlot = [
+  window.IPCT.questions.Q1,
+  window.IPCT.questions.Q2,
+  window.IPCT.questions.Q3,
+  window.IPCT.questions.Q4,
+  window.IPCT.questions.Q7,
+  window.IPCT.questions.Q8,
+  window.IPCT.questions.Q12,
+  window.IPCT.questions.Q10,
+  window.IPCT.questions.Q13,
+  window.IPCT.questions.Q14
+]
+
 Promise.all([
   d3.csv("../data/Wave_3.csv"),
   d3.csv("../data/Wave_4.csv"),
   d3.csv("../data/Wave_5.csv")
 ]).then((datas) => {
-  const plotData = [
-    [], [], [], [], [], [], [], [], [], [], [], []
-  ]
+  datas[0].name = "Wave_3"
+  datas[1].name = "Wave_4"
+  datas[2].name = "Wave_5"
+  const plotData = []
+
+  for (let i = 0; i < questionsToPlot.length; i++) {
+    plotData.push([])
+  }
+
   let textDomain = []
   datas.forEach((d, index) => {
 
 
-    const countArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    const sumArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    const averageArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    const countArray = new Array(questionsToPlot.length).fill(0)
+    const sumArray = new Array(questionsToPlot.length).fill(0)
+    const averageArray = new Array(questionsToPlot.length).fill(0)
     d.forEach((innerd) => {
-      countData(countArray, sumArray, 0, innerd["Q100r1"])
-      countData(countArray, sumArray, 1, innerd["Q100r2"])
-      countData(countArray, sumArray, 2, innerd["Q100r3"])
-      countData(countArray, sumArray, 3, innerd["Q100r4"])
-      countData(countArray, sumArray, 4, innerd["Q100r5"])
-      countData(countArray, sumArray, 5, innerd["Q100r6"])
-      countData(countArray, sumArray, 6, innerd["Q100r7"])
-      countData(countArray, sumArray, 7, innerd["Q100r8"])
-      countData(countArray, sumArray, 8, innerd["Q100r9"])
-      countData(countArray, sumArray, 9, innerd["Q100r10"])
-      countData(countArray, sumArray, 10, innerd["Q100r11"])
-      countData(countArray, sumArray, 11, innerd["Q100r12"])
+      questionsToPlot.forEach((question) => {
+        const questionSet = window.IPCT.waveQuestionSetMap[d.name]
+        const questionIndex = questionSet.indexOf(question)
+        if (questionIndex > -1) {
+          countData(countArray, sumArray, questionIndex, innerd[`Q100r${questionIndex + 1}`])
+        }
+
+      })
 
       if (!textDomain[index] || (textDomain[index] < new Date(innerd.date))) {
         textDomain[index] = new Date(innerd.date)
@@ -86,19 +101,7 @@ Promise.all([
     return d.toLocaleDateString()
   })
 
-  const legendArray = [
-    "Current economy",
-    "Achieving business goals over next three months",
-    "Achieving business goals over next six months",
-    "Business stability for next 12 months",
-    "Becoming personally infected by COVID-19",
-    "Friends/family becoming infected by COVID-19",
-    "Supply chain interruptions",
-    "Skilled labor shortages",
-    "Employees not showing up for work",
-    "IT cybersecurity with remote employees",
-    "Another wave of COVID-19 impacting business"
-  ]
+  const legendArray = window.IPCT.questionSets.questionSet1
 
   console.log(plotData)
   console.log(textDomain)
@@ -118,37 +121,38 @@ Promise.all([
   svg.append("g")
     .call(d3.axisLeft().scale(yScale))
     .attr("transform", `translate(${margins.left},${margins.top})`)
-  
+
   const legendGroup = svg.append("g")
     .attr("transform", `translate(${margins.left},${margins.top + plotHeight + 50})`)
-    legendGroup.selectAll(".legend")
+  legendGroup.selectAll(".legend")
     .data(legendArray)
     .enter()
     .append("text")
-    .attr("x",(d,i)=>{
-      if ((i / 6) < 1) {return 10}
-      else {return plotWidth / 2 + 10}
+    .attr("x", (d, i) => {
+      if ((i / 6) < 1) { return 10 }
+      else { return plotWidth / 2 + 10 }
     })
-    .attr("y",(d,i)=>{
+    .attr("y", (d, i) => {
       return (i % 6) * 20
     })
-    .text((d, i)=>{
-      return `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}` 
+    .text((d, i) => {
+      //return `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}`
+      //fix legend . import new dataset
     })
-    .attr("font-size",10)
-    legendGroup.selectAll(".legend-circle")
+    .attr("font-size", 10)
+  legendGroup.selectAll(".legend-circle")
     .data(legendArray)
     .enter()
     .append("circle")
-    .attr("r",5)
-    .attr("cx",(d,i)=>{
-      if ((i / 6) < 1) {return 0}
-      else {return plotWidth / 2}
+    .attr("r", 5)
+    .attr("cx", (d, i) => {
+      if ((i / 6) < 1) { return 0 }
+      else { return plotWidth / 2 }
     })
-    .attr("cy",(d,i)=>{
+    .attr("cy", (d, i) => {
       return (i % 6) * 20 - 3
     })
-    .attr("fill", (d,i)=>{
+    .attr("fill", (d, i) => {
       return colorScale(i)
     })
 
