@@ -1,0 +1,7 @@
+.logo{
+    background: url("../assets/Graphs_logo.jpg");
+    height: 50px;
+    width: 322.7px;
+    display: block;
+    background-size: cover;
+}

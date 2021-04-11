@@ -10,14 +10,14 @@ const svg = d3.select("svg")
   .attr("height", svgHeight)
 
 svg.append("text")
-  .text("Title...")
+  .text("Total Industry Areas of Concern")
   .attr("x", svgWidth / 2)
   .attr("y", 20)
   .attr("text-anchor", "middle")
   .attr("font-size", 25)
 
 svg.append("text")
-  .text("Q100. ...")
+  .text("Q100. Please indicate your level of concern with each of the following:")
   .attr("x", 10)
   .attr("y", svgHeight - 10)
   .attr("font-size", 10)
@@ -47,11 +47,13 @@ const questionsToPlot = [
 Promise.all([
   d3.csv("../data/Wave_3.csv"),
   d3.csv("../data/Wave_4.csv"),
-  d3.csv("../data/Wave_5.csv")
+  d3.csv("../data/Wave_5.csv"),
+  d3.csv("../data/Wave_6.csv")
 ]).then((datas) => {
   datas[0].name = "Wave_3"
   datas[1].name = "Wave_4"
   datas[2].name = "Wave_5"
+  datas[3].name = "Wave_6"
   const plotData = []
 
   for (let i = 0; i < questionsToPlot.length; i++) {
@@ -136,7 +138,8 @@ Promise.all([
       return (i % 6) * 20
     })
     .text((d, i) => {
-      //return `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}`
+      return d
+      // `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}`
       //fix legend . import new dataset
     })
     .attr("font-size", 10)
