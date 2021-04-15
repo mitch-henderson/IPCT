@@ -3,7 +3,9 @@ window.IPCT.createChart = function ({
     title,
     subtitle,
     questionText,
-    plotType
+    plotType,
+    plotData,
+    textDomain
 }) {
     const svgHeight = 640
     const svgWidth = 800
@@ -27,4 +29,18 @@ window.IPCT.createChart = function ({
         .attr("x", 10)
         .attr("y", svgHeight - 10)
         .attr("font-size", 10)
+
+    if (plotType === "lineChart") {
+
+        window.IPCT.lineChart({
+            plotData,
+            textDomain,
+            svgHeight,
+            svgWidth,
+            margins,
+            plotHeight,
+            plotWidth,
+            svg
+        })
+    }
 }
