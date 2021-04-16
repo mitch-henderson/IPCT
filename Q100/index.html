@@ -24,13 +24,12 @@
     <script src="../js/lineChart/index.js"></script>
     <script>
         const plotChart = async function () {
-            const data = await window.IPCT.createPlotData()
+            const plotDataSet = await window.IPCT.createPlotData()
             window.IPCT.createChart({
                 title: "Total Industry Areas of Concern",
                 questionText: "Q100. Please indicate your level of concern with each of the following:",
                 plotType: "lineChart",
-                plotData: data.plotData,
-                textDomain: data.textDomain
+                plotDataSet: plotDataSet
             })
         }
         plotChart()

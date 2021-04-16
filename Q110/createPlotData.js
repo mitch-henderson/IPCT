@@ -77,7 +77,7 @@ window.IPCT.createPlotData = async function () {
         return d.toLocaleDateString()
     })
     return {
-        plotData,
+        data: plotData,
         textDomain
     }
 }

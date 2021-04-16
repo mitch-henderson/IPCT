@@ -16,21 +16,18 @@
         window.IPCT = {
         }
     </script>
-    <script src="questions.js"></script>
-    <script src="questionSets.js"></script>
-    <script src="waveQuestionSetMap.js"></script>
     <script src="createPlotData.js"></script>
     <script src="../js/createChart.js"></script>
-    <script src="../js/lineChart/index.js"></script>
+    <script src="../js/divergingStackedBarChart/index.js"></script>
     <script>
         const plotChart = async function () {
-            const data = await window.IPCT.createPlotData()
+            const plotDataSet = await window.IPCT.createPlotData()
             window.IPCT.createChart({
-                title: "Total Industry Areas of Concern",
-                questionText: "Q100. Please indicate your level of concern with each of the following:",
-                plotType: "lineChart",
-                plotData: data.plotData,
-                textDomain: data.textDomain
+                title: "Technology Use/Adoption",
+                subtitle: "Mar 18-22, 2021",
+                questionText: "Q201. For each of the following technologies, please indicate your company’s level of involvement:",
+                plotType: "divergingStackedBarChart",
+                plotDataSet: plotDataSet
             })
         }
         plotChart()

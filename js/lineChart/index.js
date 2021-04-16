@@ -1,6 +1,5 @@
 window.IPCT.lineChart = function ({
-    plotData,
-    textDomain,
+    plotDataSet,
     svgHeight,
     svgWidth,
     margins,
@@ -9,9 +8,8 @@ window.IPCT.lineChart = function ({
     svg
 }) {
     const legendArray = window.IPCT.questionSets.questionSet1
-
-    console.log(plotData)
-    console.log(textDomain)
+    const plotData = plotDataSet.data
+    const textDomain = plotDataSet.textDomain
 
     const colorScale = d3.scaleOrdinal(d3.schemePaired)
 
