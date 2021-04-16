@@ -5,19 +5,19 @@ window.IPCT.lineChart = function ({
     margins,
     plotHeight,
     plotWidth,
-    svg
+    svg,
+    colorScale
+
 }) {
-    const legendArray = window.IPCT.questionSets.questionSet1
     const plotData = plotDataSet.data
     const textDomain = plotDataSet.textDomain
-
-    const colorScale = d3.scaleOrdinal(d3.schemePaired)
+    const yDomain = plotDataSet.yDomain
 
     const xScale = d3.scaleBand()
         .domain(textDomain)
         .range([0, svgWidth - margins.right - margins.left])
     const yScale = d3.scaleLinear()
-        .domain([0, 10])
+        .domain(yDomain)
         .range([svgHeight - margins.top - margins.bottom, 0])
     svg.append("g")
         .call(d3.axisBottom().scale(xScale))
@@ -26,41 +26,6 @@ window.IPCT.lineChart = function ({
     svg.append("g")
         .call(d3.axisLeft().scale(yScale))
         .attr("transform", `translate(${margins.left},${margins.top})`)
-
-    const legendGroup = svg.append("g")
-        .attr("transform", `translate(${margins.left},${margins.top + plotHeight + 50})`)
-    legendGroup.selectAll(".legend")
-        .data(legendArray)
-        .enter()
-        .append("text")
-        .attr("x", (d, i) => {
-            if ((i / 6) < 1) { return 10 }
-            else { return plotWidth / 2 + 10 }
-        })
-        .attr("y", (d, i) => {
-            return (i % 6) * 20
-        })
-        .text((d, i) => {
-            return d
-            // `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}`
-            //fix legend . import new dataset
-        })
-        .attr("font-size", 10)
-    legendGroup.selectAll(".legend-circle")
-        .data(legendArray)
-        .enter()
-        .append("circle")
-        .attr("r", 5)
-        .attr("cx", (d, i) => {
-            if ((i / 6) < 1) { return 0 }
-            else { return plotWidth / 2 }
-        })
-        .attr("cy", (d, i) => {
-            return (i % 6) * 20 - 3
-        })
-        .attr("fill", (d, i) => {
-            return colorScale(i)
-        })
 
     const dataPointGroup = svg.append("g")
         .attr("transform", `translate(${margins.left + plotWidth / (textDomain.length * 2)},${margins.top})`)

@@ -26,10 +26,11 @@
         const plotChart = async function () {
             const plotDataSet = await window.IPCT.createPlotData()
             window.IPCT.createChart({
-                title: "Total Industry Areas of Concern",
-                questionText: "Q100. Please indicate your level of concern with each of the following:",
+                title: "Anticipated Workforce Changes in Next 3 Months",
+                questionText: "Q110. What workforce changes do you anticipate at your company in the next 3 months? (Select all that apply)",
                 plotType: "lineChart",
-                plotDataSet: plotDataSet
+                plotDataSet: plotDataSet,
+                legendArray: window.IPCT.questionSets.questionSet1
             })
         }
         plotChart()

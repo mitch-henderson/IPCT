@@ -4,8 +4,10 @@ window.IPCT.createChart = function ({
     subtitle,
     questionText,
     plotType,
-    plotDataSet
+    plotDataSet,
+    legendArray
 }) {
+    console.log(plotDataSet)
     const svgHeight = 640
     const svgWidth = 800
     let margins
@@ -17,6 +19,7 @@ window.IPCT.createChart = function ({
 
     const plotHeight = svgHeight - margins.top - margins.bottom
     const plotWidth = svgWidth - margins.left - margins.right
+    const colorScale = d3.scaleOrdinal(d3.schemePaired)
 
     const svg = d3.select("svg")
         .attr("width", svgWidth)
@@ -44,6 +47,43 @@ window.IPCT.createChart = function ({
         .attr("y", svgHeight - 10)
         .attr("font-size", 10)
 
+    if (legendArray) {
+        const legendGroup = svg.append("g")
+            .attr("transform", `translate(${margins.left},${margins.top + plotHeight + 50})`)
+        legendGroup.selectAll(".legend")
+            .data(legendArray)
+            .enter()
+            .append("text")
+            .attr("x", (d, i) => {
+                if ((i / 6) < 1) { return 10 }
+                else { return plotWidth / 2 + 10 }
+            })
+            .attr("y", (d, i) => {
+                return (i % 6) * 20
+            })
+            .text((d, i) => {
+                return d
+                // `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}`
+                //fix legend . import new dataset
+            })
+            .attr("font-size", 10)
+        legendGroup.selectAll(".legend-circle")
+            .data(legendArray)
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("cx", (d, i) => {
+                if ((i / 6) < 1) { return 0 }
+                else { return plotWidth / 2 }
+            })
+            .attr("cy", (d, i) => {
+                return (i % 6) * 20 - 3
+            })
+            .attr("fill", (d, i) => {
+                return colorScale(i)
+            })
+    }
+
     if (plotType === "lineChart") {
 
         window.IPCT.lineChart({
@@ -53,7 +93,8 @@ window.IPCT.createChart = function ({
             margins,
             plotHeight,
             plotWidth,
-            svg
+            svg,
+            colorScale
         })
     } else if (plotType === "divergingStackedBarChart") {
         window.IPCT.divergingStackedBarChart({
