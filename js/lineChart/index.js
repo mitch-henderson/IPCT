@@ -12,6 +12,7 @@ window.IPCT.lineChart = function ({
     const plotData = plotDataSet.data
     const textDomain = plotDataSet.textDomain
     const yDomain = plotDataSet.yDomain
+    const tooltipOptions = plotDataSet.tooltipOptions
 
     const xScale = d3.scaleBand()
         .domain(textDomain)
@@ -40,6 +41,38 @@ window.IPCT.lineChart = function ({
             .attr("cx", (d, i) => { return xScale(textDomain[i]) })
             .attr("cy", (d) => { return yScale(d) })
             .attr("fill", colorScale(index))
+            .on("mouseover", (event, d) => {
+                console.log(event)
+                const circle = d3.select(event.target)
+                circle.attr("r", 10)
+                const tooltipHeight = 25
+                const tooltipWidth = tooltipOptions.width
+                const topLeftX = circle.attr("cx") - tooltipWidth / 2
+                const topLeftY = circle.attr("cy") - circle.attr("r") - tooltipHeight - 5
+                const tooltipGroup = dataPointGroup.append("g")
+                    .attr("transform", `translate(${topLeftX},${topLeftY})`)
+                    .attr("class", "tooltip")
+                tooltipGroup.append("rect")
+                    .attr("height", tooltipHeight)
+                    .attr("width", tooltipWidth)
+                    .attr("stroke", "black")
+                    .attr("rx", 5)
+                    .attr("ry", 5)
+                    .attr("fill", "white")
+
+                tooltipGroup.append("text")
+                    .text(tooltipOptions.textRenderer(d))
+                    .attr("x", 10)
+                    .attr("y", 5)
+                    .attr("dominant-baseline", "hanging")
+
+            })
+            .on("mouseout", (event, d) => {
+                const circle = d3.select(event.target)
+                circle.attr("r", 5)
+                d3.selectAll(".tooltip")
+                    .remove()
+            })
         dataPointGroup.selectAll(`.line-${index}`)
             .data(data)
             .enter()

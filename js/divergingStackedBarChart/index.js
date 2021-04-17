@@ -37,23 +37,32 @@ window.IPCT.divergingStackedBarChart = function ({
     const colorScale = ["#FF5B57", "#51E4EB", "#C2FB56"]
 
     const rectHeight = plotHeight / plotData.length - 5
+    const animationDuration = 1000
+    const maxAnimationDelay = 1000
 
     plotGroup.selectAll(".rect")
         .data(plotData)
         .join(
             (enter) => {
                 enter.append("rect")
-                    .attr("x", (d) => {
-                        return xScale(d[0] * -1)
-                    })
+                    .attr("width", 0)
+                    .attr("x", xScale(0))
                     .attr("y", (d, i) => {
                         return yScale(yLabels[i])
                     })
                     .attr("height", rectHeight)
+                    .attr("fill", colorScale[0])
+                    .transition()
+                    .delay(() => {
+                        return Math.random() * maxAnimationDelay
+                    })
+                    .duration(animationDuration)
+                    .attr("x", (d) => {
+                        return xScale(d[0] * -1)
+                    })
                     .attr("width", (d) => {
                         return xScale(0) - xScale(d[0] * -1)
                     })
-                    .attr("fill", colorScale[0])
                 enter.append("rect")
                     .attr("x", (d) => {
                         return xScale(0)
@@ -90,6 +99,11 @@ window.IPCT.divergingStackedBarChart = function ({
                     })
                     .attr("text-anchor", "middle")
                     .attr("font-size", 10)
+                    .attr("opacity", 0)
+                    .transition()
+                    .delay(animationDuration + maxAnimationDelay - 200)
+                    .duration(animationDuration / 2)
+                    .attr("opacity", 1)
                 enter.append("text")
                     .text((d) => {
                         return Number.parseFloat(d[1]).toPrecision(2) + "%"

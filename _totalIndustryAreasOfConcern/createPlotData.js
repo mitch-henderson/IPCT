@@ -81,7 +81,13 @@ window.IPCT.createPlotData = async function () {
         textDomain,
         yDomain: [0, Math.max(...plotData.map((data) => {
             return Math.ceil(Math.max(...data))
-        }))]
+        }))],
+        tooltipOptions: {
+            width: 150,
+            textRenderer: (d) => {
+                return `Average rating: ${Number.parseFloat(d).toPrecision(3)}`
+            }
+        }
     }
 }
 

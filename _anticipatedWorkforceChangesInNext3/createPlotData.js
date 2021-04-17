@@ -84,7 +84,13 @@ window.IPCT.createPlotData = async function () {
         textDomain,
         yDomain: [0, Math.max(...plotData.map((data) => {
             return Math.ceil(Math.max(...data) / 10) * 10
-        }))]
+        }))],
+        tooltipOptions: {
+            width: 60,
+            textRenderer: (d) => {
+                return `${Number.parseFloat(d).toPrecision(3)}%`
+            }
+        }
     }
 }
 
