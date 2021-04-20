@@ -16,21 +16,18 @@
         window.IPCT = {
         }
     </script>
-    <script src="questions.js"></script>
-    <script src="questionSets.js"></script>
-    <script src="waveQuestionSetMap.js"></script>
     <script src="createPlotData.js"></script>
-    <script src="../js/createChart.js"></script>
-    <script src="../js/lineChart/index.js"></script>
+    <script src="../../js/createChart.js"></script>
+    <script src="../../js/divergingStackedBarChart/index.js"></script>
     <script>
         const plotChart = async function () {
             const plotDataSet = await window.IPCT.createPlotData()
             window.IPCT.createChart({
-                title: "Anticipated Workforce Changes in Next 3 Months",
-                questionText: "Q110. What workforce changes do you anticipate at your company in the next 3 months? (Select all that apply)",
-                plotType: "lineChart",
-                plotDataSet: plotDataSet,
-                legendArray: window.IPCT.questionSets.questionSet1
+                title: "Technology Use/Adoption",
+                subtitle: "Mar 18-22, 2021",
+                questionText: "Q201. For each of the following technologies, please indicate your company’s level of involvement:",
+                plotType: "divergingStackedBarChart",
+                plotDataSet: plotDataSet
             })
         }
         plotChart()

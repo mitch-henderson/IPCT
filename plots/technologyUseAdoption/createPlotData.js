@@ -10,7 +10,7 @@ function countData(d, plotData, index, key) {
 }
 
 window.IPCT.createPlotData = async function () {
-    const data = await d3.csv("../data/Wave_6.csv")
+    const data = await d3.csv("../../data/Wave_6.csv")
     let plotData = new Array(16).fill(0).map(() => { return [0, 0, 0] })
     data.forEach((d) => {
         countData(d, plotData, 0, "Q201r1")
