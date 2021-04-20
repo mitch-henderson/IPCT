@@ -72,21 +72,43 @@ window.IPCT.divergingStackedBarChart = function ({
                     })
                     .attr("height", rectHeight)
                     .attr("width", (d) => {
-                        return xScale(d[1]) - xScale(0)
+                        return 0
                     })
                     .attr("fill", colorScale[1])
+                    .transition()
+                    .delay(() => {
+                        return Math.random() * maxAnimationDelay
+                    })
+                    .duration(animationDuration)
+                    .attr("x", (d) => {
+                        return xScale(0)
+                    })
+                    .attr("width", (d) => {
+                        return xScale(d[1]) - xScale(0)
+                    })
                 enter.append("rect")
                     .attr("x", (d) => {
-                        return xScale(d[1])
+                        return xScale(0)
                     })
                     .attr("y", (d, i) => {
                         return yScale(yLabels[i])
                     })
                     .attr("height", rectHeight)
                     .attr("width", (d) => {
-                        return xScale(d[2] + d[1]) - xScale(d[1])
+                        return 0
                     })
                     .attr("fill", colorScale[2])
+                    .transition()
+                    .delay(() => {
+                        return Math.random() * maxAnimationDelay
+                    })
+                    .duration(animationDuration)
+                    .attr("x", (d) => {
+                        return xScale(d[1])
+                    })
+                    .attr("width", (d) => {
+                        return xScale(d[2] + d[1]) - xScale(d[1])
+                    })
                 enter.append("text")
                     .text((d) => {
                         return Number.parseFloat(d[0]).toPrecision(2) + "%"
@@ -116,6 +138,11 @@ window.IPCT.divergingStackedBarChart = function ({
                     })
                     .attr("text-anchor", "middle")
                     .attr("font-size", 10)
+                    .attr("opacity", 0)
+                    .transition()
+                    .delay(animationDuration + maxAnimationDelay - 200)
+                    .duration(animationDuration / 2)
+                    .attr("opacity", 1)
                 enter.append("text")
                     .text((d) => {
                         return Number.parseFloat(d[2]).toPrecision(2) + "%"
@@ -128,6 +155,11 @@ window.IPCT.divergingStackedBarChart = function ({
                     })
                     .attr("text-anchor", "middle")
                     .attr("font-size", 10)
+                    .attr("opacity", 0)
+                    .transition()
+                    .delay(animationDuration + maxAnimationDelay - 200)
+                    .duration(animationDuration / 2)
+                    .attr("opacity", 1)
             }
 
         )
