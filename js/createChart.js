@@ -15,6 +15,8 @@ window.IPCT.createChart = function ({
         margins = { top: 30, bottom: 190, left: 50, right: 30 }
     } else if (plotType === "divergingStackedBarChart") {
         margins = { top: 50, bottom: 50, left: 250, right: 30 }
+    } else if (plotType === "hundredPercentStackedBarChart") {
+        margins = { top: 50, bottom: 50, left: 250, right: 30 }
     }
 
     const plotHeight = svgHeight - margins.top - margins.bottom
@@ -106,5 +108,16 @@ window.IPCT.createChart = function ({
             plotWidth,
             svg
         })
+    } else if (plotType === "hundredPercentStackedBarChart") {
+        window.IPCT.hundredPercentStackedBarChart({
+            plotDataSet,
+            svgHeight,
+            svgWidth,
+            margins,
+            plotHeight,
+            plotWidth,
+            svg
+        })
     }
+
 }
