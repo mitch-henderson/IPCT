@@ -22,10 +22,7 @@
 
     <script>
         const plotChart = async function () {
-            const plotDataSet = {
-                data: [[20, 10, 20, 50], [10, 20, 30, 40]],
-                yLabels: ["Label 1", "Label 2"]
-            }
+            const plotDataSet = await window.IPCT.createPlotData()
             window.IPCT.createChart({
                 title: "Total Industry Areas of Concern",
                 questionText: "Q100. Please indicate your level of concern with each of the following:",

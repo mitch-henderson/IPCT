@@ -28,9 +28,9 @@ window.IPCT.hundredPercentStackedBarChart = function ({
         .attr("transform", `translate(${margins.left},${margins.top})`)
 
 
-    const colorScale = ["#FF5B57", "#51E4EB", "#C2FB56"]
+    const colorScale = d3.schemeTableau10
 
-    const rectHeight = plotHeight / plotData.length - 5
+    const rectHeight = plotHeight / plotData.length * 0.75
     const animationDuration = 1000
     const maxAnimationDelay = 1000
 
@@ -51,10 +51,24 @@ window.IPCT.hundredPercentStackedBarChart = function ({
                             }
                             return xScale(sum)
                         })
-                        .attr("y", index * rectHeight)
+                        .attr("y", yScale(yLabels[index]) + plotHeight / plotData.length / 2 - rectHeight / 2)
                         .attr("fill", (d, i) => {
                             return colorScale[i]
                         })
+                    enter.append("text")
+                        .text((d) => {
+                            return `${Number.parseFloat(d).toPrecision(2)}%`
+                        })
+                        .attr("x", (d, i) => {
+                            let sum = 0
+                            for (let j = 0; j < i; j++) {
+                                sum += data[j]
+                            }
+                            return (xScale(sum) + xScale(sum + d)) / 2
+                        })
+                        .attr("y", yScale(yLabels[index]) + plotHeight / plotData.length / 2)
+                        .attr("text-anchor", "middle")
+                        .attr("dominant-baseline", "middle")
                 }
             )
     })
