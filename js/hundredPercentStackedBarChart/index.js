@@ -5,7 +5,8 @@ window.IPCT.hundredPercentStackedBarChart = function ({
     margins,
     plotHeight,
     plotWidth,
-    svg
+    svg,
+    colorScale
 }) {
     const plotData = plotDataSet.data
     const yLabels = plotDataSet.yLabels
@@ -16,9 +17,6 @@ window.IPCT.hundredPercentStackedBarChart = function ({
     const yScale = d3.scaleBand()
         .domain(yLabels)
         .range([svgHeight - margins.top - margins.bottom, 0])
-    svg.append("g")
-        .call(d3.axisBottom().scale(xScale))
-        .attr("transform", `translate(${margins.left},${margins.top + plotHeight})`)
 
     svg.append("g")
         .call(d3.axisLeft().scale(yScale))
@@ -26,9 +24,6 @@ window.IPCT.hundredPercentStackedBarChart = function ({
 
     const plotGroup = svg.append("g")
         .attr("transform", `translate(${margins.left},${margins.top})`)
-
-
-    const colorScale = d3.schemeTableau10
 
     const rectHeight = plotHeight / plotData.length * 0.75
     const animationDuration = 1000

@@ -34,8 +34,11 @@ const createPlotDataForYear = (csvData, year) => {
 window.IPCT.createPlotData = async function () {
     const csvData = await d3.csv("../../data/Water_Heater.csv")
     const plotData2018 = createPlotDataForYear(csvData, "2018")
+    const plotData2019 = createPlotDataForYear(csvData, "2019")
+    const plotData2020 = createPlotDataForYear(csvData, "2020")
+
     return {
-        data: [plotData2018],
-        yLabels: ["2018"]
+        data: [plotData2018, plotData2019, plotData2020],
+        yLabels: ["2018", "2019", "2020"]
     }
 }

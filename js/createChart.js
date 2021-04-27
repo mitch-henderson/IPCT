@@ -5,23 +5,32 @@ window.IPCT.createChart = function ({
     questionText,
     plotType,
     plotDataSet,
-    legendArray
+    legendArray,
+    colorScale,
+    itemsPerRow
+
 }) {
     console.log(plotDataSet)
     const svgHeight = 640
     const svgWidth = 800
     let margins
     if (plotType === "lineChart") {
-        margins = { top: 30, bottom: 190, left: 50, right: 30 }
+        margins = { top: 30, bottom: 50, left: 50, right: 30 }
     } else if (plotType === "divergingStackedBarChart") {
         margins = { top: 50, bottom: 50, left: 250, right: 30 }
     } else if (plotType === "hundredPercentStackedBarChart") {
-        margins = { top: 50, bottom: 50, left: 250, right: 30 }
+        margins = { top: 50, bottom: 50, left: 50, right: 30 }
+    }
+    if (legendArray) {
+        margins.bottom += Math.ceil(legendArray.length / itemsPerRow) * 20 + 40
+
     }
 
     const plotHeight = svgHeight - margins.top - margins.bottom
     const plotWidth = svgWidth - margins.left - margins.right
-    const colorScale = d3.scaleOrdinal(d3.schemePaired)
+    if (!colorScale) {
+        colorScale = d3.schemePaired
+    }
 
     const svg = d3.select("svg")
         .attr("width", svgWidth)
@@ -57,11 +66,11 @@ window.IPCT.createChart = function ({
             .enter()
             .append("text")
             .attr("x", (d, i) => {
-                if ((i / 6) < 1) { return 10 }
-                else { return plotWidth / 2 + 10 }
+                return plotWidth / itemsPerRow * (i % itemsPerRow) + 10
+
             })
             .attr("y", (d, i) => {
-                return (i % 6) * 20
+                return Math.floor(i / itemsPerRow) * 20
             })
             .text((d, i) => {
                 return d
@@ -75,14 +84,13 @@ window.IPCT.createChart = function ({
             .append("circle")
             .attr("r", 5)
             .attr("cx", (d, i) => {
-                if ((i / 6) < 1) { return 0 }
-                else { return plotWidth / 2 }
+                return plotWidth / itemsPerRow * (i % itemsPerRow)
             })
             .attr("cy", (d, i) => {
-                return (i % 6) * 20 - 3
+                return Math.floor(i / itemsPerRow) * 20 - 3
             })
             .attr("fill", (d, i) => {
-                return colorScale(i)
+                return colorScale[i]
             })
     }
 
@@ -106,7 +114,8 @@ window.IPCT.createChart = function ({
             margins,
             plotHeight,
             plotWidth,
-            svg
+            svg,
+            colorScale
         })
     } else if (plotType === "hundredPercentStackedBarChart") {
         window.IPCT.hundredPercentStackedBarChart({
@@ -116,7 +125,8 @@ window.IPCT.createChart = function ({
             margins,
             plotHeight,
             plotWidth,
-            svg
+            svg,
+            colorScale
         })
     }
 

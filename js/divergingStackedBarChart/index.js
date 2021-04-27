@@ -5,7 +5,8 @@ window.IPCT.divergingStackedBarChart = function ({
     margins,
     plotHeight,
     plotWidth,
-    svg
+    svg,
+    colorScale
 }) {
     const plotData = plotDataSet.data
     const yLabels = plotDataSet.yLabels
@@ -32,9 +33,6 @@ window.IPCT.divergingStackedBarChart = function ({
 
     const plotGroup = svg.append("g")
         .attr("transform", `translate(${margins.left},${margins.top})`)
-
-
-    const colorScale = ["#FF5B57", "#51E4EB", "#C2FB56"]
 
     const rectHeight = plotHeight / plotData.length - 5
     const animationDuration = 1000

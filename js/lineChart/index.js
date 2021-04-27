@@ -40,7 +40,7 @@ window.IPCT.lineChart = function ({
             .attr("r", (d) => { return d ? 5 : 0 })
             .attr("cx", (d, i) => { return xScale(textDomain[i]) })
             .attr("cy", (d) => { return yScale(d) })
-            .attr("fill", colorScale(index))
+            .attr("fill", colorScale[index])
             .on("mouseover", (event, d) => {
                 console.log(event)
                 const circle = d3.select(event.target)
@@ -77,7 +77,7 @@ window.IPCT.lineChart = function ({
             .data(data)
             .enter()
             .append("line")
-            .attr("stroke", colorScale(index))
+            .attr("stroke", colorScale[index])
             .attr("x1", (d, i) => {
                 if (i === 0 || !data[i - 1] || !data[i]) {
                     return 0
