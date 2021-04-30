@@ -58,6 +58,6 @@ window.IPCT.createPlotData = async function () {
 
     return {
         data: plotData,
-        yLabels
+        yDomain: yLabels
     }
 }

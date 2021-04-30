@@ -9,13 +9,13 @@ window.IPCT.hundredPercentStackedBarChart = function ({
     colorScale
 }) {
     const plotData = plotDataSet.data
-    const yLabels = plotDataSet.yLabels
+    const yDomain = plotDataSet.yDomain
 
     const xScale = d3.scaleLinear()
         .domain([0, 100])
         .range([0, svgWidth - margins.right - margins.left])
     const yScale = d3.scaleBand()
-        .domain(yLabels)
+        .domain(yDomain)
         .range([svgHeight - margins.top - margins.bottom, 0])
 
     svg.append("g")
@@ -46,7 +46,7 @@ window.IPCT.hundredPercentStackedBarChart = function ({
                             }
                             return xScale(sum)
                         })
-                        .attr("y", yScale(yLabels[index]) + plotHeight / plotData.length / 2 - rectHeight / 2)
+                        .attr("y", yScale(yDomain[index]) + plotHeight / plotData.length / 2 - rectHeight / 2)
                         .attr("fill", (d, i) => {
                             return colorScale[i]
                         })
@@ -61,7 +61,7 @@ window.IPCT.hundredPercentStackedBarChart = function ({
                             }
                             return (xScale(sum) + xScale(sum + d)) / 2
                         })
-                        .attr("y", yScale(yLabels[index]) + plotHeight / plotData.length / 2)
+                        .attr("y", yScale(yDomain[index]) + plotHeight / plotData.length / 2)
                         .attr("text-anchor", "middle")
                         .attr("dominant-baseline", "middle")
                 }

@@ -14,11 +14,10 @@ window.IPCT.createChart = function ({
     const svgHeight = 640
     const svgWidth = 800
     let margins
-    if (plotType === "lineChart") {
-        margins = { top: 30, bottom: 50, left: 50, right: 30 }
-    } else if (plotType === "divergingStackedBarChart") {
+
+    if (plotType === "divergingStackedBarChart") {
         margins = { top: 50, bottom: 50, left: 250, right: 30 }
-    } else if (plotType === "hundredPercentStackedBarChart") {
+    } else {
         margins = { top: 50, bottom: 50, left: 50, right: 30 }
     }
     if (legendArray) {
@@ -119,6 +118,17 @@ window.IPCT.createChart = function ({
         })
     } else if (plotType === "hundredPercentStackedBarChart") {
         window.IPCT.hundredPercentStackedBarChart({
+            plotDataSet,
+            svgHeight,
+            svgWidth,
+            margins,
+            plotHeight,
+            plotWidth,
+            svg,
+            colorScale
+        })
+    } else if (plotType === "horizontalBarChart") {
+        window.IPCT.horizontalBarChart({
             plotDataSet,
             svgHeight,
             svgWidth,

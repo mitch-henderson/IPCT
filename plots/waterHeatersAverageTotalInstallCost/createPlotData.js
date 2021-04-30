@@ -39,6 +39,6 @@ window.IPCT.createPlotData = async function () {
 
     return {
         data: [plotData2018, plotData2019, plotData2020],
-        yLabels: ["2018", "2019", "2020"]
+        yDomain: ["2018", "2019", "2020"]
     }
 }

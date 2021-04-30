@@ -10,12 +10,12 @@ window.IPCT.lineChart = function ({
 
 }) {
     const plotData = plotDataSet.data
-    const textDomain = plotDataSet.textDomain
+    const xDomain = plotDataSet.xDomain
     const yDomain = plotDataSet.yDomain
     const tooltipOptions = plotDataSet.tooltipOptions
 
     const xScale = d3.scaleBand()
-        .domain(textDomain)
+        .domain(xDomain)
         .range([0, svgWidth - margins.right - margins.left])
     const yScale = d3.scaleLinear()
         .domain(yDomain)
@@ -29,7 +29,7 @@ window.IPCT.lineChart = function ({
         .attr("transform", `translate(${margins.left},${margins.top})`)
 
     const dataPointGroup = svg.append("g")
-        .attr("transform", `translate(${margins.left + plotWidth / (textDomain.length * 2)},${margins.top})`)
+        .attr("transform", `translate(${margins.left + plotWidth / (xDomain.length * 2)},${margins.top})`)
 
 
     plotData.forEach((data, index) => {
@@ -38,7 +38,7 @@ window.IPCT.lineChart = function ({
             .enter()
             .append("circle")
             .attr("r", (d) => { return d ? 5 : 0 })
-            .attr("cx", (d, i) => { return xScale(textDomain[i]) })
+            .attr("cx", (d, i) => { return xScale(xDomain[i]) })
             .attr("cy", (d) => { return yScale(d) })
             .attr("fill", colorScale[index])
             .on("mouseover", (event, d) => {
@@ -82,7 +82,7 @@ window.IPCT.lineChart = function ({
                 if (i === 0 || !data[i - 1] || !data[i]) {
                     return 0
                 } else {
-                    return xScale(textDomain[i - 1])
+                    return xScale(xDomain[i - 1])
                 }
             })
             .attr("y1", (d, i) => {
@@ -96,7 +96,7 @@ window.IPCT.lineChart = function ({
                 if (i === 0 || !data[i - 1] || !data[i]) {
                     return 0
                 } else {
-                    return xScale(textDomain[i])
+                    return xScale(xDomain[i])
                 }
             })
             .attr("y2", (d, i) => {

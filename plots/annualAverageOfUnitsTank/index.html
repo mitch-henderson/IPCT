@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.6.0/d3.min.js"
+        integrity="sha512-XgjkLS0sSzUq88GniFcrLy6zjgVWkBoRFziaLm1Z+gVgkHuO3ieikhD/Q6eNKXAsp88yvBFS0n6ovVlabXftIg=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <svg>
+
+    </svg>
+    <script>
+        window.IPCT = {
+        }
+    </script>
+    <script src="createPlotData.js"></script>
+    <script src="../../js/createChart.js"></script>
+    <script src="../../js/horizontalBarChart/index.js"></script>
+    <script>
+        const plotChart = async function () {
+            //const plotDataSet = await window.IPCT.createPlotData()
+            const plotDataSet = {
+                data: [[60, 50, 10], [100, 130, 150], [50, 10, 90]],
+                xDomain: [0, 200],
+                yDomain: ["one", "two", "three"]
+            }
+            window.IPCT.createChart({
+                title: "Technology Use/Adoption",
+                subtitle: "Mar 18-22, 2021",
+                questionText: "Q201. For each of the following technologies, please indicate your company’s level of involvement:",
+                plotType: "horizontalBarChart",
+                plotDataSet: plotDataSet,
+                colorScale: ["#FF5B57", "#51E4EB", "#C2FB56"]
+
+            })
+        }
+        plotChart()
+    </script>
+    <a href="https://clearseasresearch.com/services/graphs/" class="logo" target="_blank"></a>
+
+</body>
+
+</html>

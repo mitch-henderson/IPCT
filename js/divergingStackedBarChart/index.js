@@ -9,7 +9,7 @@ window.IPCT.divergingStackedBarChart = function ({
     colorScale
 }) {
     const plotData = plotDataSet.data
-    const yLabels = plotDataSet.yLabels
+    const yDomain = plotDataSet.yDomain
     const xMin = Math.max(-100, -5 + Math.min(...plotData.map((d) => {
         return d[0] * -1
     })))
@@ -21,7 +21,7 @@ window.IPCT.divergingStackedBarChart = function ({
         .domain([xMin, xMax])
         .range([0, svgWidth - margins.right - margins.left])
     const yScale = d3.scaleBand()
-        .domain(yLabels)
+        .domain(yDomain)
         .range([svgHeight - margins.top - margins.bottom, 0])
     svg.append("g")
         .call(d3.axisBottom().scale(xScale))
@@ -46,7 +46,7 @@ window.IPCT.divergingStackedBarChart = function ({
                     .attr("width", 0)
                     .attr("x", xScale(0))
                     .attr("y", (d, i) => {
-                        return yScale(yLabels[i])
+                        return yScale(yDomain[i])
                     })
                     .attr("height", rectHeight)
                     .attr("fill", colorScale[0])
@@ -66,7 +66,7 @@ window.IPCT.divergingStackedBarChart = function ({
                         return xScale(0)
                     })
                     .attr("y", (d, i) => {
-                        return yScale(yLabels[i])
+                        return yScale(yDomain[i])
                     })
                     .attr("height", rectHeight)
                     .attr("width", (d) => {
@@ -89,7 +89,7 @@ window.IPCT.divergingStackedBarChart = function ({
                         return xScale(0)
                     })
                     .attr("y", (d, i) => {
-                        return yScale(yLabels[i])
+                        return yScale(yDomain[i])
                     })
                     .attr("height", rectHeight)
                     .attr("width", (d) => {
@@ -115,7 +115,7 @@ window.IPCT.divergingStackedBarChart = function ({
                         return (xScale(0) + xScale(d[0] * -1)) / 2
                     })
                     .attr("y", (d, i) => {
-                        return yScale(yLabels[i]) + 15
+                        return yScale(yDomain[i]) + 15
                     })
                     .attr("text-anchor", "middle")
                     .attr("font-size", 10)
@@ -132,7 +132,7 @@ window.IPCT.divergingStackedBarChart = function ({
                         return (xScale(0) + xScale(d[1])) / 2
                     })
                     .attr("y", (d, i) => {
-                        return yScale(yLabels[i]) + 15
+                        return yScale(yDomain[i]) + 15
                     })
                     .attr("text-anchor", "middle")
                     .attr("font-size", 10)
@@ -149,7 +149,7 @@ window.IPCT.divergingStackedBarChart = function ({
                         return (xScale(d[1]) + xScale(d[1] + d[2])) / 2
                     })
                     .attr("y", (d, i) => {
-                        return yScale(yLabels[i]) + 15
+                        return yScale(yDomain[i]) + 15
                     })
                     .attr("text-anchor", "middle")
                     .attr("font-size", 10)

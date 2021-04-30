@@ -78,7 +78,7 @@ window.IPCT.createPlotData = async function () {
     })
     return {
         data: plotData,
-        textDomain,
+        xDomain: textDomain,
         yDomain: [0, Math.max(...plotData.map((data) => {
             return Math.ceil(Math.max(...data))
         }))],
