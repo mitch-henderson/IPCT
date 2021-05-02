@@ -65,7 +65,7 @@ window.IPCT.horizontalBarChart = function ({
                         })
                     enter.append("text")
                         .text((d) => {
-                            return d
+                            return Number.parseFloat(d).toPrecision(2)
                         })
                         .attr("x", (d, i) => {
                             return (xScale(0) + xScale(d)) / 2

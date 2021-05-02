@@ -18,18 +18,19 @@
     </script>
     <script src="createPlotData.js"></script>
     <script src="../../js/createChart.js"></script>
-    <script src="../../js/horizontalBarChart/index.js"></script>
+    <script src="../../js/hundredPercentStackedVerticalBarChart/index.js"></script>
+
     <script>
         const plotChart = async function () {
             const plotDataSet = await window.IPCT.createPlotData()
             window.IPCT.createChart({
-                title: "Tank Water Heaters: Annual Average # of Units",
-                questionText: "QQ1. Annually, how many tank water heaters does your company...? ",
-                plotType: "horizontalBarChart",
+                title: "Indirect Tank Water Heaters: Business Mix",
+                subtitle: "Residential vs. Commercial",
+                questionText: "Q11D. What percent of your company’s indirect tank water heater business is...? ",
+                plotType: "hundredPercentStackedVerticalBarChart",
                 plotDataSet: plotDataSet,
-                legendArray: ["2020", "2019", "2018", "2017", "2016"],
-                itemsPerRow: 5
-
+                legendArray: ["Residential", "Commericial", "Other"],
+                itemsPerRow: 3
             })
         }
         plotChart()

@@ -138,6 +138,17 @@ window.IPCT.createChart = function ({
             svg,
             colorScale
         })
+    } else if (plotType === "hundredPercentStackedVerticalBarChart") {
+        window.IPCT.hundredPercentStackedVerticalBarChart({
+            plotDataSet,
+            svgHeight,
+            svgWidth,
+            margins,
+            plotHeight,
+            plotWidth,
+            svg,
+            colorScale
+        })
     }
 
 }
