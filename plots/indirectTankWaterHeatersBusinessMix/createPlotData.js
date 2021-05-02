@@ -13,24 +13,12 @@ const createPlotDataForYear = (csvData, year) => {
         const dataPoint2 = Number(d.Q11Dr2)
         const dataPoint3 = Number(d.Q11Dr3)
 
-        if (dataPoint < 500) {
-            plotData[0]++
-        } else if (dataPoint < 1000) {
-            plotData[1]++
-        } else if (dataPoint < 1500) {
-            plotData[2]++
-        } else if (dataPoint < 2000) {
-            plotData[3]++
-        } else if (dataPoint < 3000) {
-            plotData[4]++
-        } else if (dataPoint < 5000) {
-            plotData[5]++
-        } else {
-            plotData[6]++
-        }
+        plotData[0] += dataPoint1
+        plotData[1] += dataPoint2
+        plotData[2] += dataPoint3
     })
     return plotData.map((d) => {
-        return d / (data.length - emptyResponses) * 100
+        return d / (data.length - emptyResponses)
     })
 }
 
