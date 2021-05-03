@@ -1,6 +1,6 @@
 const Q1 = "Current economy"
-const Q2 = "Achieving business goals over next three months"
-const Q3 = "Achieving business goals over next six months"
+const Q2 = "Achieving business goals over next 3 months"
+const Q3 = "Achieving business goals over next 6 months"
 const Q4 = "Business stability for next 12 months"
 const Q5 = "Becoming personally infected by COVID-19"
 const Q6 = "Friends/family becoming infected by COVID-19"

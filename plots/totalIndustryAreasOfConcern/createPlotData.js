@@ -1,24 +1,14 @@
-function countData(countArray, sumArray, index, data) {
+function countData(countArray, topBoxCountArray, index, data) {
     const answer = Number(data)
 
+    if (answer < 11 && answer > 7) {
+
+        topBoxCountArray[index] += 1
+    }
     if (answer < 11 && answer > 0) {
         countArray[index] += 1
-        sumArray[index] += answer
     }
 }
-
-const questionsToPlot = [
-    window.IPCT.questions.Q1,
-    window.IPCT.questions.Q2,
-    window.IPCT.questions.Q3,
-    window.IPCT.questions.Q4,
-    window.IPCT.questions.Q7,
-    window.IPCT.questions.Q8,
-    window.IPCT.questions.Q12,
-    window.IPCT.questions.Q10,
-    window.IPCT.questions.Q13,
-    window.IPCT.questions.Q14
-]
 
 window.IPCT.createPlotData = async function () {
     const datas = await Promise.all([
@@ -32,6 +22,7 @@ window.IPCT.createPlotData = async function () {
     datas[2].name = "Wave_5"
     datas[3].name = "Wave_6"
     const plotData = []
+    const questionsToPlot = window.IPCT.questionsToPlot
 
     for (let i = 0; i < questionsToPlot.length; i++) {
         plotData.push([])
@@ -41,14 +32,14 @@ window.IPCT.createPlotData = async function () {
     datas.forEach((d, index) => {
 
         const countArray = new Array(questionsToPlot.length).fill(0)
-        const sumArray = new Array(questionsToPlot.length).fill(0)
-        const averageArray = new Array(questionsToPlot.length).fill(0)
+        const topBoxCountArray = new Array(questionsToPlot.length).fill(0)
         d.forEach((innerd) => {
-            questionsToPlot.forEach((question) => {
+            questionsToPlot.forEach((question, index) => {
                 const questionSet = window.IPCT.waveQuestionSetMap[d.name]
                 const questionIndex = questionSet.indexOf(question)
+
                 if (questionIndex > -1) {
-                    countData(countArray, sumArray, questionIndex, innerd[`Q100r${questionIndex + 1}`])
+                    countData(countArray, topBoxCountArray, index, innerd[`Q100r${questionIndex + 1}`])
                 }
             })
 
@@ -57,21 +48,15 @@ window.IPCT.createPlotData = async function () {
             }
         })
 
-        countArray.forEach((countEntry, index) => {
-            if (countEntry === 0) {
-                averageArray[index] = null
+        countArray.forEach((count, index) => {
+            if (count === 0) {
+                plotData[index].push(null)
             } else {
-                averageArray[index] = sumArray[index] / countEntry
+                plotData[index].push(topBoxCountArray[index] / count * 100)
             }
 
         })
 
-        averageArray.forEach((average, index) => {
-            plotData[index].push(average)
-        })
-
-
-        console.log(averageArray)
     })
     textDomain = textDomain.map((d) => {
         return d.toLocaleDateString()
@@ -79,13 +64,13 @@ window.IPCT.createPlotData = async function () {
     return {
         data: plotData,
         xDomain: textDomain,
-        yDomain: [0, Math.max(...plotData.map((data) => {
+        yDomain: [0, 10 + Math.max(...plotData.map((data) => {
             return Math.ceil(Math.max(...data))
         }))],
         tooltipOptions: {
-            width: 150,
+            width: 60,
             textRenderer: (d) => {
-                return `Average rating: ${Number.parseFloat(d).toPrecision(3)}`
+                return `${Number.parseFloat(d).toPrecision(3)}%`
             }
         }
     }

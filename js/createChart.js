@@ -15,6 +15,7 @@ window.IPCT.createChart = function ({
     const svgWidth = 800
     let margins
 
+
     if (plotType === "divergingStackedBarChart") {
         margins = { top: 50, bottom: 50, left: 250, right: 30 }
     } else {
@@ -22,7 +23,13 @@ window.IPCT.createChart = function ({
     }
     if (legendArray) {
         margins.bottom += Math.ceil(legendArray.length / itemsPerRow) * 20 + 40
-
+    }
+    const yDomain = plotDataSet.yDomain
+    if (yDomain) {
+        const maxLength = Math.max(...yDomain.map((label) => {
+            return String(label).length
+        }))
+        margins.left = 30 + maxLength * 5
     }
 
     const plotHeight = svgHeight - margins.top - margins.bottom
@@ -76,7 +83,7 @@ window.IPCT.createChart = function ({
                 // `${d} ${Number.parseFloat(plotData[i][0]).toPrecision(3)} -> ${Number.parseFloat(plotData[i][textDomain.length - 1]).toPrecision(3)}`
                 //fix legend . import new dataset
             })
-            .attr("font-size", 10)
+            .attr("font-size", 12)
         legendGroup.selectAll(".legend-circle")
             .data(legendArray)
             .enter()
